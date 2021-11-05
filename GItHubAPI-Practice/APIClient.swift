@@ -18,77 +18,64 @@ final class APIClient {
     
     func searchUser(userName: String,
                     completion: @escaping ResultHandler<User>) {
-        //        let urlString = "https://api.github.com/users/\(userName)"
-        //        guard let url = URL(string: urlString) else {
-        //            completion(.failure("url見つからない"))
-        //            return
-        //        }
-        //        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-        //            guard let data = data else {
-        //                completion(.failure("dataがnil"))
-        //                return
-        //            }
-        //            let jsonDecoder = JSONDecoder()
-        //            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        //            let user = try! jsonDecoder.decode(User.self, from: data)
-        //            completion(.success(user))
-        //        }
-        //        task.resume()
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        let user = try! jsonDecoder.decode(User.self, from: userJson)
-        completion(.success(user))
+        let urlString = "https://api.github.com/users/\(userName)"
+        guard let url = URL(string: urlString) else {
+            completion(.failure("url見つからない"))
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                completion(.failure("dataがnil"))
+                return
+            }
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            let user = try! jsonDecoder.decode(User.self, from: data)
+            completion(.success(user))
+        }
+        task.resume()
     }
     
     func searchUserRepositories(userName: String,
                                 completion: @escaping ResultHandler<[UserRepository]>) {
-        //        let urlString = "https://api.github.com/users/\(userName)/repos"
-        //        guard let url = URL(string: urlString) else {
-        //            completion(.failure("url見つからない"))
-        //            return
-        //        }
-        //        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-        //            guard let data = data else {
-        //                completion(.failure("dataがnil"))
-        //                return
-        //            }
-        //            let jsonDecoder = JSONDecoder()
-        //            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        //            let userRepositories = try! jsonDecoder.decode([UserRepository].self, from: data)
-        //            completion(.success(userRepositories))
-        //        }
-        //        task.resume()
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        let repositories = try! jsonDecoder.decode([UserRepository].self, from: repositoryJson)
-        completion(.success(repositories))
+        let urlString = "https://api.github.com/users/\(userName)/repos"
+        guard let url = URL(string: urlString) else {
+            completion(.failure("url見つからない"))
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                completion(.failure("dataがnil"))
+                return
+            }
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            let userRepositories = try! jsonDecoder.decode([UserRepository].self, from: data)
+            completion(.success(userRepositories))
+        }
+        task.resume()
     }
     
     func searchUserRepositoriesCommitsCount(userName: String,
                                             repositoryName: String,
                                             completion: @escaping ResultHandler<Int>) {
-        //        let urlString = "https://api.github.com/repos/\(userName)/\(repositoryName)/commits"
-        //        print("DEBUG_PRINT: ", urlString)
-        //        guard let url = URL(string: urlString) else {
-        //            completion(.failure("url見つからない"))
-        //            return
-        //        }
-        //        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-        //            guard let data = data else {
-        //                completion(.failure("dataがnil"))
-        //                return
-        //            }
-        //            let jsonDecoder = JSONDecoder()
-        //            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        //            let userCommits = try! jsonDecoder.decode([UserCommit].self, from: data)
-        //            completion(.success(userCommits.count))
-        //        }
-        //        task.resume()
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        let commitJson = [commitJson, commitJson2, commitJson3].randomElement()!
-        let userCommits = try! jsonDecoder.decode([UserCommit].self, from: commitJson)
-        completion(.success(userCommits.count))
+        let urlString = "https://api.github.com/repos/\(userName)/\(repositoryName)/commits"
+        print("DEBUG_PRINT: ", urlString)
+        guard let url = URL(string: urlString) else {
+            completion(.failure("url見つからない"))
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                completion(.failure("dataがnil"))
+                return
+            }
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            let userCommits = try! jsonDecoder.decode([UserCommit].self, from: data)
+            completion(.success(userCommits.count))
+        }
+        task.resume()
     }
     
 }
